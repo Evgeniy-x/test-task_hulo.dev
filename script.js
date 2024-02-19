@@ -1,6 +1,3 @@
-// script.js
-
-// Replace 'YOUR_VIMEO_ACCESS_TOKEN' with your actual Vimeo access token
 const accessToken = "YOUR_VIMEO_ACCESS_TOKEN";
 const apiUrl = "https://api.vimeo.com/videos/";
 
