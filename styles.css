@@ -1,56 +1,72 @@
-body {
+/* Reset some default styles */
+body,
+figure,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ol,
+ul {
   margin: 0;
-  font-family: Arial, sans-serif;
+  padding: 0;
 }
 
-.slider-container {
-  width: 80%;
-  margin: auto;
-  overflow: hidden;
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
 }
 
 .slider {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
+  width: 80%;
+  margin: 20px auto;
 }
 
-.slide {
-  flex: 0 0 auto;
-  cursor: pointer;
+.video-slide {
+  position: relative;
 }
 
-.popup-container {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
+.video-slide img {
   width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  justify-content: center;
-  align-items: center;
-}
-
-.popup {
-  background: #fff;
-  max-width: 800px;
-  max-height: 80vh;
-  overflow: hidden;
-}
-
-.video-container {
-  height: 0;
-  overflow: hidden;
-  padding-bottom: 56.25%; /* 16:9 aspect ratio */
-}
-
-.pagination {
-  text-align: center;
-  margin-top: 10px;
-}
-
-.pagination button {
-  margin: 0 5px;
-  padding: 5px 10px;
+  border-radius: 8px;
   cursor: pointer;
+}
+
+.fancybox-iframe {
+  max-width: 100%;
+  max-height: 80vh;
+}
+
+/* Fancybox styles for dots */
+.fancybox-navigation {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  text-align: center;
+  z-index: 9999;
+}
+
+.fancybox-dots {
+  display: inline-block;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 5px;
+}
+
+.fancybox-dots a {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: #555;
+  margin: 0 5px;
+  border-radius: 50%;
+  text-indent: -9999px;
+  cursor: pointer;
+}
+
+.fancybox-dots a.active {
+  background: #fff;
 }

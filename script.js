@@ -1,64 +1,85 @@
-const accessToken = "YOUR_VIMEO_ACCESS_TOKEN";
-const apiUrl = "https://api.vimeo.com/videos/";
+// script.js
 
-// Array of Vimeo video IDs
-const videoIds = ["824804225" /* Add other video IDs here */];
+$(document).ready(function () {
+  // Replace 'YOUR_CLIENT_ID' and 'YOUR_CLIENT_SECRET' with your Vimeo API credentials
+  const clientId = "5566eb86a7a59ccf4afb33564a1d3e57";
+  const clientSecret = "YOUR_CLIENT_SECRET";
 
-const slider = document.querySelector(".slider");
-const popupContainer = document.querySelector(".popup-container");
-const paginationContainer = document.querySelector(".pagination");
+  const videoIds = [
+    "824804225",
+    "824804225",
+    "824804225",
+    "824804225",
+    "824804225",
+    "824804225",
+    "824804225",
+  ];
+  const sliderContainer = $(".slider");
 
-// Function to load Vimeo video player
-function loadVideo(videoId) {
-  const iframe = document.createElement("iframe");
-  iframe.src = `https://player.vimeo.com/video/${videoId}`;
-  iframe.width = "100%";
-  iframe.height = "100%";
-  iframe.allowFullscreen = true;
-  return iframe;
-}
-
-// Function to open the popup with video
-function openPopup(videoId) {
-  const videoPlayer = loadVideo(videoId);
-  popupContainer.querySelector(".video-container").innerHTML = "";
-  popupContainer.querySelector(".video-container").appendChild(videoPlayer);
-  popupContainer.style.display = "block";
-}
-
-// Function to close the popup
-function closePopup() {
-  popupContainer.style.display = "none";
-}
-
-// Function to create pagination buttons
-function createPaginationButtons() {
-  videoIds.forEach((videoId, index) => {
-    const button = document.createElement("button");
-    button.textContent = index + 1;
-    button.addEventListener("click", () => openPopup(videoId));
-    paginationContainer.appendChild(button);
-  });
-}
-
-// Function to initialize the slider
-function initSlider() {
-  videoIds.forEach((videoId) => {
-    const slide = document.createElement("div");
-    slide.classList.add("slide");
-    slide.innerHTML = `<img src="${apiUrl}${videoId}/pictures/1280x720" alt="Video Thumbnail">`;
-    slide.addEventListener("click", () => openPopup(videoId));
-    slider.appendChild(slide);
-  });
-}
-
-// Event listener to close the popup when clicked outside the video
-popupContainer.addEventListener("click", (event) => {
-  if (event.target === popupContainer) {
-    closePopup();
+  // Function to get Vimeo video data
+  function getVimeoData(videoId) {
+    return new Promise((resolve, reject) => {
+      $.ajax({
+        url: `https://api.vimeo.com/videos/${videoId}`,
+        type: "GET",
+        headers: {
+          Authorization: `Bearer ${clientId}`,
+        },
+        success: resolve,
+        error: reject,
+      });
+    });
   }
-});
 
-// Initialize the slider and pagination
-initSlider();
-createPaginationButtons();
+  // Function to create Vimeo video slides
+  async function createVideoSlides() {
+    for (const videoId of videoIds) {
+      const videoData = await getVimeoData(videoId);
+      const videoThumbnailUrl = videoData.pictures.sizes[2].link;
+      const videoEmbedUrl = `https://player.vimeo.com/video/${videoId}`;
+
+      const slide = `
+        <div class="video-slide">
+          <a class="fancybox" data-src="${videoEmbedUrl}" data-options='{"speed": 700, "showCloseButton": true}'>
+            <img src="${videoThumbnailUrl}" alt="Video Thumbnail">
+          </a>
+        </div>
+      `;
+
+      sliderContainer.append(slide);
+    }
+
+    // Initialize the Slick Slider after all slides are created
+    sliderContainer.slick({
+      slidesToShow: 4,
+      slidesToScroll: 1,
+      arrows: false,
+      dots: true,
+      responsive: [
+        {
+          breakpoint: 768,
+          settings: {
+            slidesToShow: 2,
+          },
+        },
+      ],
+    });
+
+    // Initialize Fancybox for opening videos in pop-up
+    $(".fancybox").fancybox({
+      type: "iframe",
+      iframe: {
+        preload: false,
+      },
+      afterShow: function (instance, current) {
+        // Autoplay the video after the pop-up is shown
+        const iframe = current.$content.find("iframe");
+        const player = new Vimeo.Player(iframe[0]);
+        player.play();
+      },
+    });
+  }
+
+  // Call the function to create video slides
+  createVideoSlides();
+});
