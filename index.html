@@ -5,28 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/@glidejs/glide@3.4.1/dist/css/glide.core.min.css"
     />
-    <link
+    <!-- <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css"
+    /> -->
+    <!-- <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"
     />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"
-    />
+    /> -->
     <title>Vimeo Video Slider</title>
   </head>
   <body>
     <p>Slider Video</p>
-    <div class="slider">
-      <!-- Vimeo video slides will be dynamically added here -->
+    <!-- <div class="glide">
+      <div class="glide__track" data-glide-el="track">
+        <ul class="glide__slides">
+      
+          <li class="glide__slide">0</li>
+          <li class="glide__slide">1</li>
+          <li class="glide__slide">2</li>
+        </ul>
+      </div>
+    </div> -->
+    <div class="splide">
+          <div class="splide__track">
+    <ul class="splide__list">
+      <li class="splide__slide">Slide 01</li>
+      <li class="splide__slide">Slide 02</li>
+      <li class="splide__slide">Slide 03</li>
+    </ul>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+
+    <script src="./splide.min.js"></script>
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/@glidejs/glide@3.4.1/dist/glide.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
     <script src="https://player.vimeo.com/api/player.js"></script>
     <script src="script.js"></script>
+    <script>
+        let splide = new Splide(".splide");
+splide.mount();
+    </script>
   </body>
 </html>
